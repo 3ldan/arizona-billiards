@@ -17,6 +17,8 @@ export default function Home() {
   const gameStart = 45;
   const gameInProgress = 30;
 
+  const screenWidth: number = window.innerWidth * 0.8;
+
   const [beepSound, setBeepSound] = useState<HTMLAudioElement | null>(null);
   const [lossOfTurnSound, setLossOfTurnSound] =
     useState<HTMLAudioElement | null>(null);
@@ -111,8 +113,8 @@ export default function Home() {
             <>
               <Image
                 src='/heroImg.png'
-                width={300}
-                height={300}
+                width={screenWidth}
+                height={screenWidth}
                 priority={true}
                 style={{ borderRadius: "12px" }}
                 alt='Hero Image'
