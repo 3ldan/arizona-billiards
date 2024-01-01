@@ -17,7 +17,7 @@ export default function CustomButton(props: {
         isDisabled={isDisabled}
         color={color}
         variant='shadow'
-        style={{ width: size, height: size / 2 }}
+        style={{ width: size, height: 50 }}
         onPress={onPress}
         className={color ? "" : "bg-white"}>
         <h1 className='text-lg text-slate-950'>{label}</h1>

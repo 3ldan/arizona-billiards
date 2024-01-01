@@ -4,9 +4,12 @@ import React, { useState, useEffect } from "react";
 import Timer from "./components/Timer";
 import CustomButton from "./components/CustomButton";
 
+import Image from "next/image";
+
 export default function Home() {
   const [isGameOn, setIsGameOn] = useState(false);
   const [isGameStart, setIsGameStart] = useState(true);
+  const [isGamePaused, setIsGamePaused] = useState(false);
   const [playerOneExt, setpOneExt] = useState(true);
   const [playerTwoExt, setpTwoExt] = useState(true);
   const [isP1Turn, setIsP1Turn] = useState(true);
@@ -67,12 +70,18 @@ export default function Home() {
     }
   }
 
+  function pauseGame() {
+    console.log("paused");
+
+    setIsGamePaused(!isGamePaused);
+  }
+
   const [counter, setCounter] = useState(gameStart);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    if (isGameOn && beepSound && lossOfTurnSound) {
+    if (isGameOn && !isGamePaused && beepSound && lossOfTurnSound) {
       timer = setInterval(() => {
         if (counter > 0) {
           setCounter((prevSeconds) => prevSeconds - 1);
@@ -89,16 +98,29 @@ export default function Home() {
     return () => {
       clearInterval(timer);
     };
-  }, [isGameOn, counter, beepSound, lossOfTurnSound]);
+  }, [isGameOn, isGamePaused, counter, beepSound, lossOfTurnSound]);
 
   return (
-    <main className='flex flex-col h-5/6 w-screen justify-center bg-slate-900'>
-      <section className='flex flex-col justify-around h-screen'>
-        <div className='flex justify-center items-center'>
-          <Timer
-            timeValue={counter}
-            maxTime={isGameStart ? gameStart : gameInProgress}
-          />
+    <main className='flex flex-col h-screen w-screen justify-center bg-slate-900'>
+      <section className='flex flex-col justify-between h-5/6 py-8'>
+        <div className='flex flex-col justify-center items-center'>
+          {isGameOn ? (
+            <Timer
+              timeValue={counter}
+              maxTime={isGameStart ? gameStart : gameInProgress}
+            />
+          ) : (
+            <>
+              <Image
+                src='/heroImg.png'
+                width={300}
+                height={300}
+                style={{ borderRadius: "12px" }}
+                alt='Hero Image'
+              />
+              <h1 className='text-4xl text-stone-50 pt-4'>Arizona Billiards</h1>
+            </>
+          )}
         </div>
         {counter === 0 ? (
           <div className='flex flex-col justify-center items-center'>
@@ -117,9 +139,17 @@ export default function Home() {
                 {isP1Turn ? "Player 1" : "Player 2"}
               </h1>
               <div className='flex justify-center items-center'>
-                <CustomButton label='Next Player' onPress={nextTurn} />
+                <CustomButton
+                  label='Next Player'
+                  onPress={nextTurn}
+                  isDisabled={isGamePaused}
+                />
                 {counter > 0 ? (
-                  <CustomButton label='Ball Potted' onPress={ballPotted} />
+                  <CustomButton
+                    label='Ball Potted'
+                    onPress={ballPotted}
+                    isDisabled={isGamePaused}
+                  />
                 ) : null}
               </div>
               <div className='flex justify-center items-center'>
@@ -127,16 +157,33 @@ export default function Home() {
                   <CustomButton
                     label='Extension'
                     onPress={extension}
-                    isDisabled={isP1Turn ? !playerOneExt : !playerTwoExt}
+                    isDisabled={
+                      (isP1Turn ? !playerOneExt : !playerTwoExt) || isGamePaused
+                    }
                   />
                 ) : null}
                 {isP1Turn && isGameStart && counter > 0 ? (
-                  <CustomButton label='Push Out' onPress={pushOut} />
+                  <CustomButton
+                    label='Push Out'
+                    onPress={pushOut}
+                    isDisabled={isGamePaused}
+                  />
                 ) : null}
               </div>
-              <CustomButton label='Restart' onPress={restartGame} />
             </div>
           )}
+        </div>
+        <div className='flex flex-col justify-center items-center'>
+          {isGameOn ? (
+            <>
+              <CustomButton
+                label={!isGamePaused ? "Pause" : "Resume"}
+                size={275}
+                onPress={pauseGame}
+              />
+              <CustomButton label='Restart' size={275} onPress={restartGame} />
+            </>
+          ) : null}
         </div>
       </section>
     </main>
