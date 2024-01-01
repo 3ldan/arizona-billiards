@@ -82,22 +82,32 @@ export default function Home() {
             maxTime={isGameStart ? gameStart : gameInProgress}
           />
         </div>
+        {counter === 0 ? (
+          <div className='flex flex-col justify-center items-center'>
+            <h1 className='text-3xl text-stone-50'>Loss Of Turn</h1>
+            <h3 className='text-stone-50'>
+              Ball in hand to {!isP1Turn ? "Player 1" : "Player 2"}
+            </h3>
+          </div>
+        ) : null}
         <div className='flex flex-col justify-center items-center'>
           {!isGameOn ? (
             <CustomButton label='START' size={150} onPress={startGame} />
           ) : (
             <div className='flex flex-col justify-center items-center'>
-              <h1 className='text-2xl text-stone-50'>
+              <h1 className='text-xl text-stone-50'>
                 {isP1Turn ? "Player 1" : "Player 2"}
               </h1>
               <CustomButton label='Next Player' onPress={nextTurn} />
               <div className='flex justify-center items-center'>
-                <CustomButton
-                  label='Extension'
-                  onPress={extension}
-                  isDisabled={isP1Turn ? !playerOneExt : !playerTwoExt}
-                />
-                {isP1Turn && isGameStart ? (
+                {counter > 0 ? (
+                  <CustomButton
+                    label='Extension'
+                    onPress={extension}
+                    isDisabled={isP1Turn ? !playerOneExt : !playerTwoExt}
+                  />
+                ) : null}
+                {isP1Turn && isGameStart && counter > 0 ? (
                   <CustomButton label='Push Out' onPress={pushOut} />
                 ) : null}
               </div>
