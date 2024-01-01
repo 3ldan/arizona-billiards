@@ -10,7 +10,7 @@ export default function Timer(props: { timeValue: number; maxTime: number }) {
 
   return (
     <Card className='h-full w-2/3 border-none bg-slate-950'>
-      <CardBody className='justify-center items-center p-12'>
+      <CardBody className='justify-center items-center p-8'>
         <CircularProgress
           classNames={{
             svg: "w-36 h-36 drop-shadow-md",

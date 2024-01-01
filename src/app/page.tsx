@@ -178,7 +178,6 @@ export default function Home() {
               {counter > 0 ? (
                 <CustomButton
                   label={!isGamePaused ? "Pause" : "Resume"}
-                  color={isGamePaused ? "success" : null}
                   size={275}
                   onPress={pauseGame}
                 />
