@@ -4,9 +4,6 @@ import React, { useState, useEffect } from "react";
 import Timer from "./components/Timer";
 import CustomButton from "./components/CustomButton";
 
-const beepSound = new Audio("/audio/beep.mp3");
-const lossOfTurn = new Audio("/audio/loss_of_turn.mp3");
-
 export default function Home() {
   const [isGameOn, setIsGameOn] = useState(false);
   const [isGameStart, setIsGameStart] = useState(true);
@@ -16,6 +13,9 @@ export default function Home() {
 
   const gameStart = 45;
   const gameInProgress = 30;
+
+  // const [beepSound] = useState(new Audio("/beep.mp3"));
+  // const [lossOfTurn] = useState(new Audio("/audio/loss_of_turn.mp3"));
 
   function startGame() {
     setCounter(gameStart);
@@ -62,10 +62,10 @@ export default function Home() {
         if (counter > 0) {
           setCounter((prevSeconds) => prevSeconds - 1);
           if (counter <= 11 && counter > 1) {
-            beepSound.play();
+            // beepSound.play();
           }
         } else {
-          lossOfTurn.play();
+          // lossOfTurn.play();
           clearInterval(timer);
         }
       }, 1000);
