@@ -32,6 +32,7 @@ export default function Home() {
     setCounter(gameStart);
     setIsGameStart(true);
     setIsGameOn(true);
+    setIsGamePaused(false);
     setpOneExt(true);
     setpTwoExt(true);
     setIsP1Turn(true);
@@ -49,7 +50,7 @@ export default function Home() {
 
   function pushOut() {
     setIsP1Turn(!isP1Turn);
-    setCounter(gameInProgress);
+    setCounter(gameStart);
     if (isGameStart) {
       setIsGameStart(false);
     }
