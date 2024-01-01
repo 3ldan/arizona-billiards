@@ -14,8 +14,16 @@ export default function Home() {
   const gameStart = 45;
   const gameInProgress = 30;
 
-  // const [beepSound] = useState(new Audio("/beep.mp3"));
-  // const [lossOfTurn] = useState(new Audio("/audio/loss_of_turn.mp3"));
+  const [beepSound, setBeepSound] = useState<HTMLAudioElement | null>(null);
+  const [lossOfTurnSound, setLossOfTurnSound] =
+    useState<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setBeepSound(new Audio("/audio/beep.mp3"));
+      setLossOfTurnSound(new Audio("/audio/loss_of_turn.mp3"));
+    }
+  }, []);
 
   function startGame() {
     setCounter(gameStart);
@@ -64,21 +72,24 @@ export default function Home() {
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    if (isGameOn) {
+    if (isGameOn && beepSound && lossOfTurnSound) {
       timer = setInterval(() => {
         if (counter > 0) {
           setCounter((prevSeconds) => prevSeconds - 1);
           if (counter <= 11 && counter > 1) {
-            // beepSound.play();
+            beepSound.play();
+          } else if (counter === 1) {
+            lossOfTurnSound.play();
           }
         } else {
-          // lossOfTurn.play();
           clearInterval(timer);
         }
       }, 1000);
     }
-    return () => clearInterval(timer);
-  }, [isGameOn, counter]);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isGameOn, counter, beepSound, lossOfTurnSound]);
 
   return (
     <main className='flex flex-col h-5/6 w-screen justify-center bg-slate-900'>
