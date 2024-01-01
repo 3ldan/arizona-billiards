@@ -10,7 +10,7 @@ export default function CustomButton(props: {
   onPress: any;
   isDisabled?: any;
 }) {
-  const { size = 120, label, color, onPress, isDisabled } = props;
+  const { size = 130, label, color, onPress, isDisabled } = props;
   return (
     <div className='flex gap-4 items-center p-2'>
       <Button

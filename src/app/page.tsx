@@ -71,8 +71,6 @@ export default function Home() {
   }
 
   function pauseGame() {
-    console.log("paused");
-
     setIsGamePaused(!isGamePaused);
   }
 
@@ -115,6 +113,7 @@ export default function Home() {
                 src='/heroImg.png'
                 width={300}
                 height={300}
+                priority={true}
                 style={{ borderRadius: "12px" }}
                 alt='Hero Image'
               />
@@ -176,12 +175,20 @@ export default function Home() {
         <div className='flex flex-col justify-center items-center'>
           {isGameOn ? (
             <>
+              {counter > 0 ? (
+                <CustomButton
+                  label={!isGamePaused ? "Pause" : "Resume"}
+                  color={isGamePaused ? "success" : null}
+                  size={275}
+                  onPress={pauseGame}
+                />
+              ) : null}
               <CustomButton
-                label={!isGamePaused ? "Pause" : "Resume"}
+                label='Restart'
                 size={275}
-                onPress={pauseGame}
+                onPress={restartGame}
+                color='danger'
               />
-              <CustomButton label='Restart' size={275} onPress={restartGame} />
             </>
           ) : null}
         </div>
