@@ -52,6 +52,13 @@ export default function Home() {
     }
   }
 
+  function ballPotted() {
+    setCounter(gameInProgress);
+    if (isGameStart) {
+      setIsGameStart(false);
+    }
+  }
+
   const [counter, setCounter] = useState(gameStart);
 
   useEffect(() => {
@@ -98,7 +105,12 @@ export default function Home() {
               <h1 className='text-xl text-stone-50'>
                 {isP1Turn ? "Player 1" : "Player 2"}
               </h1>
-              <CustomButton label='Next Player' onPress={nextTurn} />
+              <div className='flex justify-center items-center'>
+                <CustomButton label='Next Player' onPress={nextTurn} />
+                {counter > 0 ? (
+                  <CustomButton label='Ball Potted' onPress={ballPotted} />
+                ) : null}
+              </div>
               <div className='flex justify-center items-center'>
                 {counter > 0 ? (
                   <CustomButton
